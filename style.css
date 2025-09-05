@@ -1,0 +1,97 @@
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-size: clamp(24px, 6vw, 60px);
+    overflow: hidden;
+  }
+  
+  .scene {
+    perspective: 400px;
+  }
+  .scene * {
+    transform-style: preserve-3d;
+  }
+  
+  .layeredText {
+    --layers-count: 24;
+    --layer-offset: 1px;
+  
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    animation: wobble 27s infinite linear;
+  }
+  
+  .layeredText .text {
+    color: transparent;
+    animation: shadow 2s infinite ease-in-out alternate;
+  }
+  
+  .layeredText .layers,
+  .layeredText .layer {
+    position: absolute;
+    inset: 0;
+  }
+  
+  .layeredText .layers {
+    animation: hover 2s infinite ease-in-out alternate;
+  }
+  
+  .layeredText .layer {
+    --n: calc(var(--i) / var(--layers-count));
+    transform: translateZ(calc(var(--i) * var(--layer-offset)));
+    color: hsl(200 30% calc(var(--n) * 80% + 20%));
+  }
+  
+  /* Animations */
+  @keyframes wobble {
+    from { transform: rotate(0deg) rotateX(30deg) rotate(360deg); }
+    to   { transform: rotate(360deg) rotateX(30deg) rotate(0deg); }
+  }
+  
+  @keyframes hover {
+    from { transform: translateZ(0.3em); }
+    to   { transform: translateZ(0.6em); }
+  }
+  
+  @keyframes shadow {
+    from { text-shadow: 0 0 0.1em #000; }
+    to   { text-shadow: 0 0 0.2em #000; }
+  }
+  
+  /* Cursor trail */
+  .trail {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .trail span {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: cyan;
+    border-radius: 50%;
+    opacity: 0.6;
+    transform: translate(-50%, -50%);
+    animation: fadeOut 1s forwards;
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 0.8; transform: scale(1) translate(-50%, -50%); }
+    to   { opacity: 0; transform: scale(0) translate(-50%, -50%); }
+  }
+  
